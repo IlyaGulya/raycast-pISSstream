@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { List } from "@raycast/api";
-import {
-  LightstreamerClient,
-  Subscription,
-  SubscriptionListener,
-} from "lightstreamer-client-node";
+import { LightstreamerClient, Subscription, SubscriptionListener } from "lightstreamer-client-node";
 
 export default function ISSTankCommand() {
   const [pissAmount, setPissAmount] = useState("N/A");
@@ -14,7 +10,7 @@ export default function ISSTankCommand() {
     // 1) Create and configure the Lightstreamer client
     const client = new LightstreamerClient(
       "https://push.lightstreamer.com",
-      "ISSLIVE" // adapterSet
+      "ISSLIVE", // adapterSet
     );
     // optional: disable slowing, etc.:
     // client.connectionOptions.setSlowingEnabled(false);
@@ -23,11 +19,7 @@ export default function ISSTankCommand() {
     //    - MERGE mode for single-value updates
     //    - Subscribing to "NODE3000005"
     //    - Tracking field "Value"
-    const subscription = new Subscription(
-      "MERGE",
-      ["NODE3000005"],
-      ["Value"]
-    );
+    const subscription = new Subscription("MERGE", ["NODE3000005"], ["Value"]);
 
     subscription.setRequestedSnapshot("yes");
 
@@ -48,9 +40,7 @@ export default function ISSTankCommand() {
         console.log("Subscription removed.");
       },
       onSubscriptionError(code, message) {
-        console.error(
-          `Subscription error: [${code}] ${message}`
-        );
+        console.error(`Subscription error: [${code}] ${message}`);
       },
     };
     subscription.addListener(listener);
@@ -67,16 +57,9 @@ export default function ISSTankCommand() {
   }, []);
 
   return (
-    <List
-      isLoading={isLoading}
-      searchBarPlaceholder="ISS Urine Tank Fullness (Lightstreamer)"
-    >
+    <List isLoading={isLoading} searchBarPlaceholder="ISS Urine Tank Fullness (Lightstreamer)">
       <List.Section title="Real-time ISS Urine Tank">
-        <List.Item
-          title={pissAmount}
-          subtitle="Urine Tank Fullness"
-          icon="🧑🏽‍🚀🚽"
-        />
+        <List.Item title={pissAmount} subtitle="Urine Tank Fullness" icon="🧑🏽‍🚀🚽" />
       </List.Section>
     </List>
   );
